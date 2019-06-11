@@ -1,0 +1,65 @@
+import sys
+boxes = []
+
+for x in range (0, 9) :
+    boxes.append(str(x + 1))
+
+playerOneTurn = True
+winner = False
+
+def printBoard() :
+    print( '\n=======')
+    print( '|' + boxes[0] + '|' + boxes[1] + '|' + boxes[2] + '|')
+    print( '-------')
+    print( '|' + boxes[3] + '|' + boxes[4] + '|' + boxes[5] + '|')
+    print( '-------')
+    print( '|' + boxes[6] + '|' + boxes[7] + '|' + boxes[8] + '|')
+    print( '=======\n')
+count = 0
+while not winner :
+    printBoard()
+    if (count>=9):
+        print("Draw")
+        sys.exit()
+
+    if playerOneTurn :
+        print( "Player_1:")
+    else :
+        print( "Player_2:")
+
+    try:
+        box = int(input(">> "))
+    except:
+        print("Enter a valid entry")
+        continue
+    if (box>9 or box<0):
+        print("Enter a valid entry")
+        continue
+    if boxes[box - 1] == 'X' or boxes [box-1] == 'O':
+        print("Illegal move, try again")
+        continue
+
+    if playerOneTurn :
+        count+=1
+        boxes[box - 1] = 'X'
+    else :
+        count+=1
+        boxes[box - 1] = 'O'
+
+    playerOneTurn = not playerOneTurn
+
+    for x in range (0, 3) :
+        y = x * 3
+        if (boxes[y] == boxes[(y + 1)] and boxes[y] == boxes[(y + 2)]) :
+            winner = True
+            printBoard()
+        if (boxes[x] == boxes[(x + 3)] and boxes[x] == boxes[(x + 6)]) :
+            winner = True
+            printBoard()
+
+    if((boxes[0] == boxes[4] and boxes[0] == boxes[8]) or 
+       (boxes[2] == boxes[4] and boxes[4] == boxes[6])) :
+        winner = True
+        printBoard()
+
+
